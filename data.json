@@ -158,5 +158,9 @@
         "image": "https:\/\/picsum.photos\/500?random=20",
         "price": 12.99,
         "category": "women clothing"
+    },
+     {
+        "title": "ERROR",
+        "ERROR": "There are not enough products"
     }
 ]

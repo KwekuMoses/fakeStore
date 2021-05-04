@@ -11,7 +11,8 @@ class App {
     {
         try {
             $array = self::getData();
-            self::viewData($array);
+            $errormessage = self::getErrorMessage();
+            self::viewData($array, $errormessage);
         } catch (Exception $error) {
             echo $error->getMessage();
         }
@@ -29,8 +30,17 @@ public static function getData()
         return json_decode($json, true);
     }
 
+    public static function getErrorMessage()
+    {
+        $json = file_get_contents("http://localhost/PHP/Inl%C3%A4mning-2/fakeStore/error.json");
 
-    public static function viewData($array)
+        if (!$json)
+            throw new Exception("Could not access URL");
+        return json_decode($json, true);
+    }
+
+
+    public static function viewData($array, $errormessage)
     {
    /*    if show = 18 visa 18
        if category = jewelry visa bara jewelry
@@ -39,14 +49,15 @@ public static function getData()
        if (isset($_GET['show'])) { 
         $show = $_GET["show"];
         if ($show < 20)
-        for ($i = 0; $i < $show; $i++) {
-         print_array($array[$i]);
+        for ($i = 1; $i < $show; $i++) {
+         print_array($array[$i - 1]);
        }   
-       else {
-        print_array($array[10]);
-
+       else if ($show > 20) {
+        print_array($errormessage[0]);
        }
+       else if ($)
     }
+
   else if (isset($_GET['category'])) { 
         $category = $_GET['category'];
         foreach ($array as $product) {
