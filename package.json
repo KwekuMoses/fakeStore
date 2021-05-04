@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KwekuMoses/fakeStore/issues"
   },
-  "homepage": "https://github.com/KwekuMoses/fakeStore#readme"
+  "homepage": "https://github.com/KwekuMoses/fakeStore#readme",
+  "dependencies": {
+    "heroku": "^7.53.0"
+  }
 }
