@@ -52,27 +52,32 @@ class App
                 print_array($errormessage[0]);
             }
         }
-
+        
         
         if (isset($_GET['category'])) {
             $category = $_GET['category'];
+            
+            $print_these = array();
+            
             foreach ($array as $product) {
                 if ($product['category'] == $category) {
-                    print_array($product);
+                    
+                    array_push($print_these, $product);
+                    
+                    if (count($print_these) > 0) {
+                        print_array($product);
+                        echo count($print_these);
+                    }
                 }
-              
             }
-            if ($category) {
+            if (count($print_these) === 0) {
                 print_array($errormessage[1]);
-                exit(0);
+                echo count($print_these);
+
             }
-        
+            
         }
-        
-        else {
-            print_array($array);
-        }
-        
+     
         
         
     }
@@ -84,13 +89,10 @@ App::main();
 $json = json_encode($names,
 JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 /*
-
 $show = $_GET["show"];
-
 if ($show < 18) {
 echo "Too young";
 } else {
 echo "welcome old one";
 }
-
 */
