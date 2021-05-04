@@ -1,20 +1,17 @@
 <?php
-include_once "fakeStore.json";
+include_once "functions.php";
 
-/*
-class App
-{
 
-    public static $endpoint = "fakeStore.json";
+class App {
+
+
 
 
     public static function main()
     {
         try {
-       //     $array = self::getData();
-
-            //self::viewData($array);
-            //echo $array;
+            $array = self::getData();
+            self::viewData($array);
         } catch (Exception $error) {
             echo $error->getMessage();
         }
@@ -22,34 +19,51 @@ class App
 
 
 
-    /*****
-     * En klassmetod som hämtar data
-     */
-  /*  public static function getData()
-    {
-        $json =  @file_get_contents(self::$endpoint);
-        if (!$json)
-            throw new Exception("Could not access " . self::$endpoint);
 
+public static function getData()
+    {
+        $json = file_get_contents("http://localhost/PHP/Inl%C3%A4mning-2/fakeStore/data.json");
+
+        if (!$json)
+            throw new Exception("Could not access URL");
         return json_decode($json, true);
     }
 
 
-    /*****
-     * En klassmetod som renderar data
-     */
+public static function viewData($array)
+    {
+   /*    if show = 18 visa 18
+       if category = jewelry visa bara jewelry
+       if show = 100 välj en mindre siffra
+       if category = jew kategorin existerar inte */
+       if (isset($_GET['show'])) { 
+        $show = $_GET["show"];
+            for ($i = 0; $i < $show; $i++) {
+                print_array($array[$i]);
+              }         
+    }
+    else {
+        print_array($array);
+    }
 
-//    public static function viewData($array)
-    /*{
+   
 
-        foreach ($array as $user) {
-            //   "<div style=width:200px>$user[name] . <br></div> ";
-            echo "<div style='background-color:black;color:white;padding:20px; width:200px;'>";
-            echo ($user['name']) . "<br>";
-            echo ($user['address']['street']) . "<br>";
-            echo ($user['address']['suite']) . "<br>";
-            echo ($user['address']['city']) . "<br>";
-            echo ($user['address']['zipcode']) . "<br> <br>";
-            echo  "</div> " . " <br>";
         }
-    }*/
+}
+
+App::main();
+
+/*
+$json = json_encode($names,
+JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+/*
+
+$show = $_GET["show"];
+
+if ($show < 18) {
+    echo "Too young";
+} else {
+    echo "welcome old one";
+}
+
+*/
