@@ -30,7 +30,7 @@ public static function getData()
     }
 
 
-public static function viewData($array)
+    public static function viewData($array)
     {
    /*    if show = 18 visa 18
        if category = jewelry visa bara jewelry
@@ -38,9 +38,26 @@ public static function viewData($array)
        if category = jew kategorin existerar inte */
        if (isset($_GET['show'])) { 
         $show = $_GET["show"];
-            for ($i = 0; $i < $show; $i++) {
-                print_array($array[$i]);
-              }         
+        if ($show < 20)
+        for ($i = 0; $i < $show; $i++) {
+         print_array($array[$i]);
+       }   
+       else {
+        print_array($array[10]);
+
+       }
+    }
+  else if (isset($_GET['category'])) { 
+        $category = $_GET['category'];
+        foreach ($array as $product) {
+            if ($product["category"] == $category) {
+                print_array($product);
+            }
+          }   
+
+
+       
+       
     }
     else {
         print_array($array);
