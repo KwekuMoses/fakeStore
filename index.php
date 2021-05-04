@@ -24,7 +24,7 @@ class App
     
     public static function getData()
     {
-        $json = file_get_contents("data.json");
+        $json = file_get_contents("fakeStore/data.json");
         if (!$json)
             throw new Exception("Could not access URL");
         return json_decode($json, true);
@@ -32,7 +32,7 @@ class App
     
     public static function getErrorMessage()
     {
-        $json = file_get_contents("error.json");
+        $json = file_get_contents("fakeStore/error.json");
         if (!$json)
             throw new Exception("Could not access URL");
         return json_decode($json, true);
