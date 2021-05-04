@@ -6,9 +6,6 @@
   "dependencies": {
     "heroku": "^7.52.0"
   },
-  "scripts": {
-    "start": "node index.php"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KwekuMoses/fakeStore.git"
