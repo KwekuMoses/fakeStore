@@ -7,7 +7,7 @@
     "heroku": "^7.52.0"
   },
   "scripts": {
-    "start": "node fakestorekweku"
+    "start": "node index.php"
   },
   "repository": {
     "type": "git",
