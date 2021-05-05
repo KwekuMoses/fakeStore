@@ -54,44 +54,20 @@ class App
             if (isset($_GET['show'])) {
                 $show = $_GET["show"];
                 $array_count = count($array);
-                if ($show < $array_count)
 
-                    for ($i = 0; $i < $show; $i++) {
-                        $random_number = (rand(0, 20));
-                        $json_string = json_encode($array[$random_number], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                        echo $json_string;
-                    }
 
-                else if ($show > $array_count) {
+
+                if ($show > $array_count) {
                     print_array($errormessage[0]);
                 }
             }
 
 
             if (isset($_GET['category'])) {
-                $category = $_GET['category'];
-                $print_these = array();
-
-
-                foreach ($array as $product) {
-                    if ($product['category'] == $category) {
-
-                        array_push($print_these, $product);
-
-                        if (count($print_these) > 0) {
-                            //    print_r($product);
-                            $json_string = json_encode($product, JSON_PRETTY_PRINT);
-                            echo $json_string;
-                        }
-                    }
-                }
-                if (count($print_these) === 0) {
-                    print_array($errormessage[1]);
-                    echo count($print_these);
-                }
             }
         } else if ($_SERVER['QUERY_STRING'] !== '') {
-            print_array($errormessage[2]);
+            $json_string = json_encode($errormessage[2], JSON_PRETTY_PRINT);
+            echo $json_string;
         }
     }
 }
