@@ -4,87 +4,91 @@ include_once "functions.php";
 
 class App
 {
-    
-    
-    
+
+
+
     public static function main()
     {
         try {
             $array        = self::getData();
             $errormessage = self::getErrorMessage();
             self::viewData($array, $errormessage);
-        }
-        catch (Exception $error) {
+        } catch (Exception $error) {
             echo $error->getMessage();
         }
     }
-    
-    
-    
-    
+
+
+
+
     public static function getData()
     {
         $json = file_get_contents("data.json");
-        
+
         if (!$json)
             throw new Exception("Could not access URL");
-        return json_decode($json, true);
+        return $json;
     }
-    
+
     public static function getErrorMessage()
     {
         $json = file_get_contents("error.json");
-        
+
         if (!$json)
             throw new Exception("Could not access URL");
         return json_decode($json, true);
     }
-    
-    
+
+
     public static function viewData($array, $errormessage)
     {
 
         if ($_GET == null) {
             print_array($array);
+            echo "där";
         }
+        $allowed_key_1 = isset($_GET['show']);
+        $allowed_key_2 = isset($_GET['category']);
+        if ($allowed_key_1 || $allowed_key_2) {
+            if (isset($_GET['show'])) {
+                $show = $_GET["show"];
+                $array_count = count($array);
+                if ($show < $array_count)
 
-        if (isset($_GET['show'])) {
-            $show = $_GET["show"];
-            if ($show < 20)
-                for ($i = 0; $i < $show; $i++) {
-                    print_array($array[$i]);
-                } else if ($show > 20) {
-                print_array($errormessage[0]);
-            }
-        }
-        
-        
-        if (isset($_GET['category'])) {
-            $category = $_GET['category'];
-            
-            $print_these = array();
-            
-            foreach ($array as $product) {
-                if ($product['category'] == $category) {
-                    
-                    array_push($print_these, $product);
-                    
-                    if (count($print_these) > 0) {
-                        print_array($product);
-                        echo count($print_these);
+                    for ($i = 0; $i < $show; $i++) {
+                        $random_number = (rand(0, 20));
+                        print_array($array[$random_number]);
                     }
+                else if ($show > $array_count) {
+                    print_array($errormessage[0]);
                 }
             }
-            if (count($print_these) === 0) {
-                print_array($errormessage[1]);
-                echo count($print_these);
 
+
+            if (isset($_GET['category'])) {
+                $category = $_GET['category'];
+
+                $print_these = array();
+
+                foreach ($array as $product) {
+                    if ($product['category'] == $category) {
+
+                        array_push($print_these, $product);
+
+                        if (count($print_these) > 0) {
+                            print_array($product);
+                            echo count($print_these);
+                        }
+                    }
+                }
+                if (count($print_these) === 0) {
+                    print_array($errormessage[1]);
+                    echo count($print_these);
+                }
             }
-            
+        } else if ($_SERVER['QUERY_STRING'] !== '') {
+            print_array($errormessage[2]);
         }
-     
-        
-        
     }
 }
 
