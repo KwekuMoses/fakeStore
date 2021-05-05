@@ -51,6 +51,7 @@ class App
         $allowed_key_1 = isset($_GET['show']);
         $allowed_key_2 = isset($_GET['category']);
         if ($allowed_key_1 || $allowed_key_2) {
+
             if (isset($_GET['show'])) {
                 $show = $_GET["show"];
                 $array_count = count($array);
@@ -58,7 +59,33 @@ class App
 
 
                 if ($show > $array_count) {
-                    print_array($errormessage[0]);
+                    // print_r($errormessage);
+
+
+                    $filteredArr = (array_filter($errormessage, function ($k) {
+                        return $k == 0;
+                    }, ARRAY_FILTER_USE_KEY));
+
+                    $json_string = json_encode($filteredArr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo $json_string;
+
+                    //     print_r(array_filter($errormessage, "getMsg"));
+
+                    /*
+                    foreach ($errormessage as $key => $value) {
+                        //    print_r($value);
+                        foreach ($value as $msg) {
+                            if ($msg === "Please enter a number between 1 and 20") {
+                                print_r($msg);
+                            }
+                        }
+                    }
+                    */
+
+
+                    /*$json_string = json_encode($errormessage, JSON_PRETTY_PRINT);
+                    echo $json_string;
+                    print_r($errormessage);*/
                 }
             }
 

@@ -1,14 +1,11 @@
- 
- [
-     {
+[
+    {
         "NUMBER ERROR": "Please enter a number between 1 and 20"
     },
-     {
+    {
         "CATEGORY DOESNT EXIST": "This category does not exist"
     },
     {
         "CANT HANDLE REQUEST": "This request can not be handled"
     }
-
-    
 ]
