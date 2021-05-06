@@ -7,5 +7,8 @@
     },
     {
         "CANT HANDLE REQUEST": "This request can not be handled"
+    },
+    {
+        "CANT HANDLE REQUEST": "This request can not be handled Check Spelling"
     }
 ]

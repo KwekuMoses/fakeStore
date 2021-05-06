@@ -37,7 +37,6 @@ class App
     //* Method for sending data to browser
     public static function viewData($array, $errormessage)
     {
-
         //*If $_GET is null print entire $array object
         if ($_GET == null) {
             $json_string = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
@@ -82,7 +81,7 @@ class App
             }
             //* If a larger number is entered than number of products display an error message
             if ($show > count($array) && count($new_array) === 0) {
-                array_push($new_array, $errormessage[0], $errormessage[1]);
+                array_push($new_array, $errormessage[0]);
 
                 $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 echo $json_string;
@@ -98,17 +97,6 @@ class App
                 echo $json_string;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
         //*If only one of either show or category is queried.
@@ -161,25 +149,33 @@ class App
                     }
                 }
 
+
                 //* If no category is matched $new_array will be empty
                 if (count($new_array) === 0) {
                     //* push the error message to $new_array    
                     array_push($new_array, $errormessage[1]);
-                    //* print new array as JSON
-                    $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                    echo $json_string;
                 }
+                //* print new array as JSON
+                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                echo $json_string;
             }
-        }
-        //* Handle what happens when a query-string is entered but this query-string is neither "show" or "category" was entered.
-
-        if ($_SERVER['QUERY_STRING'] !== '' and count($_GET) == 1) {
-            /*
+        } else if (count($_GET) > 0 && !isset($_GET['show'], $_GET['category'])) {
             $new_array = [];
-
-            array_push($new_array, $errormessage[2]);
+            array_push($new_array, $errormessage[3]);
             $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            // echo $json_string;*/
+            echo $json_string;
+        }
+
+
+
+        //* Handle what happens when a query-string is entered but this query-string is neither "show" or "category" was entered.
+        /* if ($_SERVER['QUERY_STRING'] !== '') { {
+                $new_array = [];
+                array_push($new_array, $errormessage[3]);
+                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                echo $json_string;
+            };
+        }*/
     }
 }
 
