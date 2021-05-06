@@ -6,7 +6,6 @@ class App
 {
 
 
-
     public static function main()
     {
         try {
@@ -60,8 +59,6 @@ class App
 
                 if ($show > $array_count) {
                     // print_r($errormessage);
-
-
                     $filteredArr = (array_filter($errormessage, function ($k) {
                         return $k == 0;
                     }, ARRAY_FILTER_USE_KEY));
@@ -81,11 +78,46 @@ class App
                         }
                     }
                     */
-
-
                     /*$json_string = json_encode($errormessage, JSON_PRETTY_PRINT);
                     echo $json_string;
                     print_r($errormessage);*/
+                }
+
+                if ($show <= $array_count) {
+                    //$k = (rand(0, 19));
+                    // echo $k;
+                    // echo "  ---  ";
+
+                    //    print_r($array);
+                    $x = [];
+                    for ($i = 0; $i < $show; $i++) {
+                        $k = array_rand($array);
+                        $v = $array[$k];
+                        array_push($x, $v);
+                        /* array_push($x, $random_objects);
+                    foreach ($x as $key => $value) {
+                        // print_r($x);
+                    }*/
+                    }
+
+                    $json_string = json_encode($x, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo $json_string;
+
+
+                    /*
+                    $newArr = [];
+
+                    for ($i = 0; $i < $show; $i++) {
+
+                        $filteredArr = (array_filter($array, function ($k) {
+                            return $k === 2;
+                        }, ARRAY_FILTER_USE_KEY));
+                        array_push($newArr, $filteredArr);
+                    }
+
+                    $json_string = json_encode($newArr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo $json_string;
+                    */
                 }
             }
 
@@ -93,7 +125,12 @@ class App
             if (isset($_GET['category'])) {
             }
         } else if ($_SERVER['QUERY_STRING'] !== '') {
-            $json_string = json_encode($errormessage[2], JSON_PRETTY_PRINT);
+            $filteredArr = (array_filter($errormessage, function ($k) {
+                return $k == 1;
+            }, ARRAY_FILTER_USE_KEY));
+
+
+            $json_string = json_encode($filteredArr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             echo $json_string;
         }
     }
