@@ -1,5 +1,4 @@
 <?php
-//include_once "functions.php";
 header('Content-Type: application/json');
 
 class App
@@ -16,9 +15,6 @@ class App
             echo $error->getMessage();
         }
     }
-
-
-
 
     public static function getData()
     {
