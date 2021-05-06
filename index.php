@@ -8,7 +8,7 @@ class App
     {
         try {
             $array        = self::getData();
-            $errormessage = self::getErrorMessage();
+            $errormessage = self::getErrorMessages();
             self::viewData($array, $errormessage);
         } catch (Exception $error) {
             echo $error->getMessage();
@@ -25,7 +25,7 @@ class App
         return json_decode($json, true);
     }
     //* Method for fetching error.json
-    public static function getErrorMessage()
+    public static function getErrorMessages()
     {
         $json = file_get_contents("error.json");
 
