@@ -37,16 +37,81 @@ class App
     //* Method for sending data to browser
     public static function viewData($array, $errormessage)
     {
+
         //*If $_GET is null print entire $array object
         if ($_GET == null) {
             $json_string = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             echo $json_string;
         }
 
-        //*If show or category is queried..
-        $allowed_key_1 = isset($_GET['show']);
-        $allowed_key_2 = isset($_GET['category']);
-        if ($allowed_key_1 || $allowed_key_2) {
+        //* if both category and show is being queried
+        if (isset($_GET['category'], $_GET['show'])) {
+            $category = $_GET['category'];
+            $show = $_GET['show'];
+            //* Array used for pushing desired values
+            $new_array = [];
+            $sliced_new_array = [];
+
+            if ($show <= 20) {
+                //* Loop through the data.json array
+                foreach ($array as $product) {
+                    //* if $category matches category key, push the entire object into $new array
+                    if ($product['category'] == $category) {
+
+                        //* array_rand is a built in method for selecting random objects within $array
+                        array_push($new_array, $product);
+                    }
+                }
+
+                //* if show is smaller than array length of new array display $show amount of products
+                if ($show < count($new_array)) {
+                    $sliced_new_array = array_slice($new_array, 1, $show);
+                    $json_string = json_encode($sliced_new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo $json_string;
+                }
+                //* if show is larger than array length of $new_array print the entire $new_array
+                else {
+                    //* echo the string only if new array is not empty
+                    if (count($new_array) !== 0) {
+                        $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                        echo $json_string;
+                    }
+                }
+            }
+            //* If a larger number is entered than number of products display an error message
+            if ($show > count($array)) {
+
+                array_push($new_array, $errormessage[0]);
+
+                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                //echo $json_string;
+            }
+
+
+            //* If no category is matched $new_array will be empty
+            if (count($new_array) === 0) {
+                //* push the error message to $new_array    
+                array_push($new_array, $errormessage[1]);
+            }
+            //* print new array as JSON
+            $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo $json_string;
+
+
+            if ($_SERVER['QUERY_STRING'] !== '') {
+                echo "something";
+                $new_array = [];
+
+                array_push($new_array, $errormessage[2]);
+
+                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                echo $json_string;
+            }
+        }
+
+        //*If only one of either show or category is queried.
+        if (isset($_GET['category']) || isset($_GET['show']) and count($_GET) == 1) {
+
 
             if (isset($_GET['show'])) {
                 $show = $_GET["show"];
@@ -66,15 +131,15 @@ class App
                 //* If entered number is less than or equal to total number of objects
                 if ($show <= $array_count) {
 
-                    $x = [];
+                    $random_array = [];
                     for ($i = 0; $i < $show; $i++) {
                         //* array_rand is a built in method for selecting random objects within $array
                         $key = array_rand($array);
                         $value = $array[$key];
-                        array_push($x, $value);
+                        array_push($random_array, $value);
                     }
 
-                    $json_string = json_encode($x, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    $json_string = json_encode($random_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     echo $json_string;
                 }
             }
@@ -104,8 +169,8 @@ class App
                 echo $json_string;
             }
         }
-        //* Handle what happens when a querystring is entered but this querystring is neither "show" or "category" was entered.
-        else if ($_SERVER['QUERY_STRING'] !== '') {
+        //* Handle what happens when a query-string is entered but this query-string is neither "show" or "category" was entered.
+        else if ($_SERVER['QUERY_STRING'] !== '' and count($_GET) == 1) {
             $new_array = [];
 
             array_push($new_array, $errormessage[2]);
