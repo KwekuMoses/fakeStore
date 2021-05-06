@@ -83,30 +83,26 @@ class App
 
             if (isset($_GET['category'])) {
                 $category = $_GET['category'];
+                //* Array used for pushing desired values
                 $new_array = [];
 
 
+                //* Loop through the data.json array
                 foreach ($array as $product) {
+                    //* if $category matches category key, push the entire object into $new array
                     if ($product['category'] == $category) {
                         array_push($new_array, $product);
-
-                        /*  $print_these = [];
-                        array_push($print_these, $product);
-
-                        if (count($print_these) > 0) {
-                            //    print_r($product);
-                            $json_string = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                            echo $json_string;
-                        }*/
                     }
                 }
+
+                //* If no category is matched $new_array will be empty
+                if (count($new_array) === 0) {
+                    //* push the error message to $new_array    
+                    array_push($new_array, $errormessage[1]);
+                }
+                //* print new array as JSON
                 $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 echo $json_string;
-
-                /*      if (count($print_these) === 0) {
-                    print_r($errormessage[1]);
-                    echo count($print_these);
-                }*/
             }
         } else if ($_SERVER['QUERY_STRING'] !== '') {
             $filteredArr = (array_filter($errormessage, function ($k) {
