@@ -58,71 +58,55 @@ class App
 
 
                 if ($show > $array_count) {
-                    // print_r($errormessage);
                     $filteredArr = (array_filter($errormessage, function ($k) {
                         return $k == 0;
                     }, ARRAY_FILTER_USE_KEY));
 
                     $json_string = json_encode($filteredArr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     echo $json_string;
-
-                    //     print_r(array_filter($errormessage, "getMsg"));
-
-                    /*
-                    foreach ($errormessage as $key => $value) {
-                        //    print_r($value);
-                        foreach ($value as $msg) {
-                            if ($msg === "Please enter a number between 1 and 20") {
-                                print_r($msg);
-                            }
-                        }
-                    }
-                    */
-                    /*$json_string = json_encode($errormessage, JSON_PRETTY_PRINT);
-                    echo $json_string;
-                    print_r($errormessage);*/
                 }
 
                 if ($show <= $array_count) {
-                    //$k = (rand(0, 19));
-                    // echo $k;
-                    // echo "  ---  ";
 
-                    //    print_r($array);
                     $x = [];
                     for ($i = 0; $i < $show; $i++) {
                         $k = array_rand($array);
                         $v = $array[$k];
                         array_push($x, $v);
-                        /* array_push($x, $random_objects);
-                    foreach ($x as $key => $value) {
-                        // print_r($x);
-                    }*/
                     }
 
                     $json_string = json_encode($x, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     echo $json_string;
-
-
-                    /*
-                    $newArr = [];
-
-                    for ($i = 0; $i < $show; $i++) {
-
-                        $filteredArr = (array_filter($array, function ($k) {
-                            return $k === 2;
-                        }, ARRAY_FILTER_USE_KEY));
-                        array_push($newArr, $filteredArr);
-                    }
-
-                    $json_string = json_encode($newArr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                    echo $json_string;
-                    */
                 }
             }
 
 
             if (isset($_GET['category'])) {
+                $category = $_GET['category'];
+                $new_array = [];
+
+
+                foreach ($array as $product) {
+                    if ($product['category'] == $category) {
+                        array_push($new_array, $product);
+
+                        /*  $print_these = [];
+                        array_push($print_these, $product);
+
+                        if (count($print_these) > 0) {
+                            //    print_r($product);
+                            $json_string = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                            echo $json_string;
+                        }*/
+                    }
+                }
+                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                echo $json_string;
+
+                /*      if (count($print_these) === 0) {
+                    print_r($errormessage[1]);
+                    echo count($print_these);
+                }*/
             }
         } else if ($_SERVER['QUERY_STRING'] !== '') {
             $filteredArr = (array_filter($errormessage, function ($k) {
