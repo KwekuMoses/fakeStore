@@ -58,17 +58,19 @@ class App
                     //* if $category matches category key, push the entire object into $new array
                     if ($product['category'] == $category) {
 
-                        //* array_rand is a built in method for selecting random objects within $array
                         array_push($new_array, $product);
                     }
                 }
 
                 //* if show is smaller than array length of new array display $show amount of products
-                if ($show < count($new_array)) {
+                if ($show <= count($new_array)) {
                     $sliced_new_array = array_slice($new_array, 1, $show);
+                    $json_string = json_encode($sliced_new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    //* print new array as JSON
                     $json_string = json_encode($sliced_new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     echo $json_string;
                 }
+
                 //* if show is larger than array length of $new_array print the entire $new_array
                 else {
                     //* echo the string only if new array is not empty
@@ -79,12 +81,11 @@ class App
                 }
             }
             //* If a larger number is entered than number of products display an error message
-            if ($show > count($array)) {
-
-                array_push($new_array, $errormessage[0]);
+            if ($show > count($array) && count($new_array) === 0) {
+                array_push($new_array, $errormessage[0], $errormessage[1]);
 
                 $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                //echo $json_string;
+                echo $json_string;
             }
 
 
@@ -92,27 +93,28 @@ class App
             if (count($new_array) === 0) {
                 //* push the error message to $new_array    
                 array_push($new_array, $errormessage[1]);
-            }
-            //* print new array as JSON
-            $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            echo $json_string;
-
-
-            if ($_SERVER['QUERY_STRING'] !== '') {
-                echo "something";
-                $new_array = [];
-
-                array_push($new_array, $errormessage[2]);
-
+                //* print new array as JSON
                 $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 echo $json_string;
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
         //*If only one of either show or category is queried.
         if (isset($_GET['category']) || isset($_GET['show']) and count($_GET) == 1) {
 
-
+            //* Handle Show Request
             if (isset($_GET['show'])) {
                 $show = $_GET["show"];
                 $array_count = count($array);
@@ -144,7 +146,7 @@ class App
                 }
             }
 
-
+            //* Handle Category Request
             if (isset($_GET['category'])) {
                 $category = $_GET['category'];
                 //* Array used for pushing desired values
@@ -163,23 +165,24 @@ class App
                 if (count($new_array) === 0) {
                     //* push the error message to $new_array    
                     array_push($new_array, $errormessage[1]);
+                    //* print new array as JSON
+                    $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo $json_string;
                 }
-                //* print new array as JSON
-                $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                echo $json_string;
             }
         }
         //* Handle what happens when a query-string is entered but this query-string is neither "show" or "category" was entered.
-        else if ($_SERVER['QUERY_STRING'] !== '' and count($_GET) == 1) {
+
+        if ($_SERVER['QUERY_STRING'] !== '' and count($_GET) == 1) {
+            /*
             $new_array = [];
 
             array_push($new_array, $errormessage[2]);
-
             $json_string = json_encode($new_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            echo $json_string;
-        }
+            // echo $json_string;*/
     }
 }
+
 
 //* Call the Main method in App
 App::main();
